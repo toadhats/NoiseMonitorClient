@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  SecondViewController.swift
 //  NoiseMonitorClient
 //
 //  Created by Jonathan Warner on 20/10/2015.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class QueryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

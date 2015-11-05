@@ -1,0 +1,2 @@
+Base results were something like 75 decibels = A0 reading of ~500
+Try and calibrate properly tomorrow.

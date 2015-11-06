@@ -13,6 +13,11 @@
 		AB222AF01BD5D5EE009E7D1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB222AEE1BD5D5EE009E7D1C /* Main.storyboard */; settings = {ASSET_TAGS = (coC, ); }; };
 		AB222AF21BD5D5EE009E7D1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB222AF11BD5D5EE009E7D1C /* Assets.xcassets */; };
 		AB222AF51BD5D5EE009E7D1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB222AF31BD5D5EE009E7D1C /* LaunchScreen.storyboard */; };
+		AB270B6E1BEB01BD00FA403E /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AB270B6A1BEB01BD00FA403E /* GCDAsyncUdpSocket.m */; };
+		AB270B6F1BEB01BD00FA403E /* SCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B6B1BEB01BD00FA403E /* SCClient.swift */; };
+		AB270B701BEB01BD00FA403E /* SCMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B6C1BEB01BD00FA403E /* SCMessage.swift */; };
+		AB270B711BEB01BD00FA403E /* SCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B6D1BEB01BD00FA403E /* SCServer.swift */; };
+		AB270B731BEC839D00FA403E /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B721BEC839D00FA403E /* ServerResponse.swift */; };
 		ABE05BC71BEA5FE400F071D4 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */; };
 		EEE63F28DA821F2E1852579F /* Pods_NoiseMonitorClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */; };
 /* End PBXBuildFile section */
@@ -28,6 +33,12 @@
 		AB222AF11BD5D5EE009E7D1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB222AF41BD5D5EE009E7D1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB222AF61BD5D5EE009E7D1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB270B691BEB01BD00FA403E /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		AB270B6A1BEB01BD00FA403E /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		AB270B6B1BEB01BD00FA403E /* SCClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCClient.swift; sourceTree = "<group>"; };
+		AB270B6C1BEB01BD00FA403E /* SCMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCMessage.swift; sourceTree = "<group>"; };
+		AB270B6D1BEB01BD00FA403E /* SCServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCServer.swift; sourceTree = "<group>"; };
+		AB270B721BEC839D00FA403E /* ServerResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
 		ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoiseMonitorClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -81,8 +92,23 @@
 				AB222AF11BD5D5EE009E7D1C /* Assets.xcassets */,
 				AB222AF31BD5D5EE009E7D1C /* LaunchScreen.storyboard */,
 				AB222AF61BD5D5EE009E7D1C /* Info.plist */,
+				AB270B681BEB01BD00FA403E /* SwiftCoAP_Library */,
+				AB270B721BEC839D00FA403E /* ServerResponse.swift */,
 			);
 			path = NoiseMonitorClient;
+			sourceTree = "<group>";
+		};
+		AB270B681BEB01BD00FA403E /* SwiftCoAP_Library */ = {
+			isa = PBXGroup;
+			children = (
+				AB270B691BEB01BD00FA403E /* GCDAsyncUdpSocket.h */,
+				AB270B6A1BEB01BD00FA403E /* GCDAsyncUdpSocket.m */,
+				AB270B6B1BEB01BD00FA403E /* SCClient.swift */,
+				AB270B6C1BEB01BD00FA403E /* SCMessage.swift */,
+				AB270B6D1BEB01BD00FA403E /* SCServer.swift */,
+			);
+			name = SwiftCoAP_Library;
+			path = SwiftCoAP_Library/SwiftCoAP_Library;
 			sourceTree = "<group>";
 		};
 		D6816C35F56A4C38026F6DF5 /* Pods */ = {
@@ -218,9 +244,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB270B6F1BEB01BD00FA403E /* SCClient.swift in Sources */,
 				AB222AED1BD5D5EE009E7D1C /* QueryViewController.swift in Sources */,
+				AB270B6E1BEB01BD00FA403E /* GCDAsyncUdpSocket.m in Sources */,
 				AB222AE91BD5D5EE009E7D1C /* AppDelegate.swift in Sources */,
+				AB270B731BEC839D00FA403E /* ServerResponse.swift in Sources */,
+				AB270B701BEB01BD00FA403E /* SCMessage.swift in Sources */,
 				AB222AEB1BD5D5EE009E7D1C /* LiveViewController.swift in Sources */,
+				AB270B711BEB01BD00FA403E /* SCServer.swift in Sources */,
 				ABE05BC71BEA5FE400F071D4 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

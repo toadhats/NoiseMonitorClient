@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -40,6 +41,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    // Let's mimic core data and make the swiftcoap instance a lazy var
+    // I still don't see the difference between this and a singleton. Is the difference that we're doing dependency injection by passing responsibility to the viewController before the view controller tries to use it? As in the viewController will be using its own reference (but NOT instance) of this class.
+    
+    lazy var coapClient: SCClient = {
+        guard let tabBarController: UITabBarController = self.window?.rootViewController as? UITabBarController else {print("Couldn't get a reference to the tab bar?")}
+        guard let liveView = tabBarController.viewControllers?[0] as? LiveViewController else {print("Couldn't get a reference to the live view controller?")}
+        // Observe view gets control of the SCCLient first since the user starts there. If they segue, responsibility will be passed along.
+        // In theory I could use tabBarController.selectedViewController instead, but since this will get called before the interface loads, what would be selected? The first one?
+        let client: SCClient = SCClient(delegate: liveView) // what should I initialise as the delegate?
+        // client.sendToken = true // don't think i need this, it's the default
+        return client
+    }() // end closure for lazy loading of SCClient
 
 
 }

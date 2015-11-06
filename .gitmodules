@@ -1,0 +1,3 @@
+[submodule "NoiseMonitorClient/SwiftCoAP_Library"]
+	path = NoiseMonitorClient/SwiftCoAP_Library
+	url = https://github.com/stuffrabbit/SwiftCoAP.git

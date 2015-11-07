@@ -11,50 +11,65 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }
-
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
+    
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    // Let's mimic core data and make the swiftcoap instance a lazy var
-    // I still don't see the difference between this and a singleton. Is the difference that we're doing dependency injection by passing responsibility to the viewController before the view controller tries to use it? As in the viewController will be using its own reference (but NOT instance) of this class.
+    /**
+    *  Let's mimic core data and make the swiftcoap instance a lazy var
+    *  I still don't see the difference between this and a singleton. Is the difference that we're doing dependency injection by passing responsibility to the viewController before the view controller tries to use it? As in the viewController will be using its own reference (but NOT instance) of this class.
+    *
+    *  @param instance I don't get this lol
+    *
+    *  @return returns a SCClient, which lets you send and recieve CoAP messages
+    */
     
-    lazy var coapClient: SCClient = {
-        guard let tabBarController: UITabBarController = self.window?.rootViewController as? UITabBarController else {print("Couldn't get a reference to the tab bar?")}
-        guard let liveView = tabBarController.viewControllers?[0] as? LiveViewController else {print("Couldn't get a reference to the live view controller?")}
+    lazy var coapClient: SCClient =  {
+            let tabBarController: UITabBarController = self.window?.rootViewController as! UITabBarController
+            let liveView = tabBarController.viewControllers?[0] as! LiveViewController
+        // I REALLY shouldn't be force casting but error handling inside a closure inside a lazy var is a bit beyond me right now.
+        
+            let client: SCClient = SCClient(delegate: liveView) // what should I initialise as the delegate?
+            // client.sendToken = true // don't think i need this, it's the default
+            return client
+        
         // Observe view gets control of the SCCLient first since the user starts there. If they segue, responsibility will be passed along.
         // In theory I could use tabBarController.selectedViewController instead, but since this will get called before the interface loads, what would be selected? The first one?
-        let client: SCClient = SCClient(delegate: liveView) // what should I initialise as the delegate?
-        // client.sendToken = true // don't think i need this, it's the default
-        return client
+
     }() // end closure for lazy loading of SCClient
-
-
+    
+    enum SwiftCoAPInitError: ErrorType {
+        case CouldNotInitialise
+    }
+    
+    
+    
 }
 

@@ -22,11 +22,11 @@ class LiveViewController: UIViewController, SCClientDelegate {
         client = appDelegate.coapClient
         // Now we have a reference to the coap client we can use to send requests
 
-        // testing delete
+        // ***testing delete***
         months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
         setChart(months, values: unitsSold)
-        // end testing
+        // ***end testing***
     }
     
     /**
@@ -43,11 +43,10 @@ class LiveViewController: UIViewController, SCClientDelegate {
         
         print("Trying to send an observe request")
         let m = SCMessage(code: SCCodeValue(classValue: 0, detailValue: 01)!, type: .Confirmable, payload: "test".dataUsingEncoding(NSUTF8StringEncoding))
-        //m.addOption(SCOption.UriPath.rawValue, data: "/".dataUsingEncoding(NSUTF8StringEncoding)!) // just sending "/" so it's not empty, server doesn't use URI of observe request.
         let zeroByte: [UInt8] = [0x0] // this shouldn't be necessary but nothing else worked
         m.addOption(SCOption.Observe.rawValue, data: NSData(bytes: (zeroByte), length: 1)) // Adding the observe option (value of 0) -- This stopped working for some reason. Swift update? I just want to send a value of zero...
         client?.sendCoAPMessage(m, hostName: hostName, port: UInt16(hostPort))
-        // Observe request sent, assuming we actually have a referene to the client
+        // Observe request sent, assuming we actually have a reference to the client
     }
     
     // MARK: SCClientDelegate responsibilities

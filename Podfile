@@ -6,5 +6,6 @@ target 'NoiseMonitorClient' do
   pod 'SwiftDate' #date handling library
   pod 'Charts' #ios-charts graphing library
   pod 'Eureka', '~> 1.0' #interesting library that creates input forms
+  pod 'ObjectMapper', '~> 1.0'
 
 end

@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ObjectMapper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-NoiseMonitorClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,12 +42,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4BCC5D7E885F3FCF19DC46F8FCEF6230</key>
+		<key>32F23960D422AD8A5B1A0ED521F5FCDD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>557F90DAB975858487ADD1DAED3C47CA</key>
+		<key>6EDC278AC4F00B8DCD6DAE459603AE7D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E82421CBEE4F9A6C8D5D9FEC459CE24A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F78EF38FED891A3DF1E13F98'
+               BlueprintIdentifier = '05F8DA42E9072B4AE3BD6F03'
                BlueprintName = 'Pods-NoiseMonitorClient'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_NoiseMonitorClient.framework'>

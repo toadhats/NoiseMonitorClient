@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ObjectMapper
+import SwiftyJSON
 
 /**
  *  Response types: Observe , Result, Error. We use this info to decide what to do with a packet, e.g to help in a situation where we get an observe update while waiting for a seperate query reponse. Error allows us to determine whether a query failed and respond accordingly, else process the response as valid.
@@ -22,22 +22,12 @@ enum ResponseType: String{
 /**
  *  Pretty simple. I don't know what else we'd want to keep in here but hopefully we can discuss it on saturday??
  */
-struct ServerResponse: Mappable {
+struct ServerResponse {
     var type: ResponseType
     var value: [String?] // I'd like to have more confidence about types but that might not be practical
     var rows: [DataRow?]
     
-    /*
-    init?(_ map: Map) {
-        // What does this do and why is in the example? Do i need it?
-    }*/
-    
-    mutating func mapping(map: Map) {
-        type    <- map["type"]
-        value   <- map["value"]
-        rows    <- map["rows"]
-    }
-    
+    // This doesn't work and i have no idea why
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
         // Provide default values to prevent tears. If we ever see these something broke.
         type = ResponseType(rawValue: (d["type"] as! String)) ?? ResponseType.Error
@@ -46,7 +36,20 @@ struct ServerResponse: Mappable {
         rows = dataRowArray(rowData) as [DataRow?] // I think the DataRow init will protect us from this case being totally nil??
         } else {rows = []}
     }
-
+    
+    init(fromJSONData jsonData: NSData) {
+        json = JSON(data: jsonData)
+        type = ResponseType(rawValue:json["type"].stringValue)
+        value = []
+        for subJSON in json["value"].arrayValue {
+            value.append(subJSON.string)
+        }
+        rows = []
+        for subJSON in json["rows"].arrayValue {
+            row = DataRow(subJSON as NSData)
+            rows.append(row)
+        }
+    }
 }
 
 
@@ -57,6 +60,12 @@ struct DataRow {
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
         timestamp = d["timestamp"] as? String ?? "NO TIMESTAMP"
         data = d["data"] as? String ?? "NO ROW DATA"
+    }
+    
+    init(fromJSONData jsonData: NSData) {
+        json = JSON(data: jsonData)
+        timestamp = json["timestamp"].stringValue
+        data = json["data"].stringValue
     }
     
 }
@@ -80,7 +89,7 @@ func dataRowArray(rowArrayObject: AnyObject?) -> [DataRow?] {
 }
 
 /**
- Takes a JSON object (as NSData) and returns a Dictionary<String, AnyObject>
+ Takes a JSON object (as NSData) and returns a Dictionary<String, AnyObject>. Doesn't work at all, spent 4 hours debugging it, gave up.
  
  - parameter json: JSON data as NSData, which we get from the payload of a coap response
  

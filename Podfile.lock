@@ -1,19 +1,28 @@
 PODS:
   - Charts (2.1.6)
   - Eureka (1.1.0)
-  - ObjectMapper (1.0.1)
   - SwiftDate (1.2)
+  - SwiftyJSON (2.3.1)
 
 DEPENDENCIES:
   - Charts
   - Eureka (~> 1.0)
-  - ObjectMapper (~> 1.0)
   - SwiftDate
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
+
+EXTERNAL SOURCES:
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+CHECKOUT OPTIONS:
+  SwiftyJSON:
+    :commit: ece271ab33839d11c2153d71fb59c53545132cf9
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
   Charts: 5e1e5ac23898e5b09d226a2fc3e9d86bc281937e
   Eureka: 9b198a9f4098a1e75df31dde502105bc0b7e305b
-  ObjectMapper: 98524bac0dca46c6b3d5ee02cd410fc700ec6ce2
   SwiftDate: 49ebd4efb5f82336cfc2b1d8a6622f47d4b17370
+  SwiftyJSON: 592b53bee5ef3dd9b3bebc6b9cb7ee35426ae8c3
 
 COCOAPODS: 0.39.0

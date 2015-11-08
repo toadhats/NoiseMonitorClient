@@ -18,13 +18,13 @@
 		AB270B701BEB01BD00FA403E /* SCMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B6C1BEB01BD00FA403E /* SCMessage.swift */; };
 		AB270B711BEB01BD00FA403E /* SCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B6D1BEB01BD00FA403E /* SCServer.swift */; };
 		AB270B731BEC839D00FA403E /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB270B721BEC839D00FA403E /* ServerResponse.swift */; };
-		AB77A0DB1BEF0D64009C3817 /* NoiseMonitorClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB77A0DA1BEF0D64009C3817 /* NoiseMonitorClientTests.swift */; };
+		AB4BE0D71BEF58DA00032C01 /* NoiseMonitorClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BE0D61BEF58DA00032C01 /* NoiseMonitorClientTests.swift */; };
 		ABE05BC71BEA5FE400F071D4 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */; };
 		EEE63F28DA821F2E1852579F /* Pods_NoiseMonitorClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AB77A0DD1BEF0D64009C3817 /* PBXContainerItemProxy */ = {
+		AB4BE0D91BEF58DA00032C01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AB222ADD1BD5D5EE009E7D1C /* Project object */;
 			proxyType = 1;
@@ -50,9 +50,9 @@
 		AB270B6C1BEB01BD00FA403E /* SCMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCMessage.swift; sourceTree = "<group>"; };
 		AB270B6D1BEB01BD00FA403E /* SCServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCServer.swift; sourceTree = "<group>"; };
 		AB270B721BEC839D00FA403E /* ServerResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
-		AB77A0D81BEF0D64009C3817 /* NoiseMonitorClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoiseMonitorClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB77A0DA1BEF0D64009C3817 /* NoiseMonitorClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseMonitorClientTests.swift; sourceTree = "<group>"; };
-		AB77A0DC1BEF0D64009C3817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB4BE0D41BEF58DA00032C01 /* NoiseMonitorClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoiseMonitorClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB4BE0D61BEF58DA00032C01 /* NoiseMonitorClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseMonitorClientTests.swift; sourceTree = "<group>"; };
+		AB4BE0D81BEF58DA00032C01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoiseMonitorClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -66,7 +66,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB77A0D51BEF0D64009C3817 /* Frameworks */ = {
+		AB4BE0D11BEF58DA00032C01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -88,7 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				AB222AE71BD5D5EE009E7D1C /* NoiseMonitorClient */,
-				AB77A0D91BEF0D64009C3817 /* NoiseMonitorClientTests */,
+				AB4BE0D51BEF58DA00032C01 /* NoiseMonitorClientTests */,
 				AB222AE61BD5D5EE009E7D1C /* Products */,
 				D6816C35F56A4C38026F6DF5 /* Pods */,
 				11A4341DA65FED95285EF8B5 /* Frameworks */,
@@ -99,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				AB222AE51BD5D5EE009E7D1C /* NoiseMonitorClient.app */,
-				AB77A0D81BEF0D64009C3817 /* NoiseMonitorClientTests.xctest */,
+				AB4BE0D41BEF58DA00032C01 /* NoiseMonitorClientTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,11 +134,11 @@
 			path = SwiftCoAP_Library/SwiftCoAP_Library;
 			sourceTree = "<group>";
 		};
-		AB77A0D91BEF0D64009C3817 /* NoiseMonitorClientTests */ = {
+		AB4BE0D51BEF58DA00032C01 /* NoiseMonitorClientTests */ = {
 			isa = PBXGroup;
 			children = (
-				AB77A0DA1BEF0D64009C3817 /* NoiseMonitorClientTests.swift */,
-				AB77A0DC1BEF0D64009C3817 /* Info.plist */,
+				AB4BE0D61BEF58DA00032C01 /* NoiseMonitorClientTests.swift */,
+				AB4BE0D81BEF58DA00032C01 /* Info.plist */,
 			);
 			path = NoiseMonitorClientTests;
 			sourceTree = "<group>";
@@ -175,22 +175,22 @@
 			productReference = AB222AE51BD5D5EE009E7D1C /* NoiseMonitorClient.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AB77A0D71BEF0D64009C3817 /* NoiseMonitorClientTests */ = {
+		AB4BE0D31BEF58DA00032C01 /* NoiseMonitorClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AB77A0DF1BEF0D64009C3817 /* Build configuration list for PBXNativeTarget "NoiseMonitorClientTests" */;
+			buildConfigurationList = AB4BE0DB1BEF58DA00032C01 /* Build configuration list for PBXNativeTarget "NoiseMonitorClientTests" */;
 			buildPhases = (
-				AB77A0D41BEF0D64009C3817 /* Sources */,
-				AB77A0D51BEF0D64009C3817 /* Frameworks */,
-				AB77A0D61BEF0D64009C3817 /* Resources */,
+				AB4BE0D01BEF58DA00032C01 /* Sources */,
+				AB4BE0D11BEF58DA00032C01 /* Frameworks */,
+				AB4BE0D21BEF58DA00032C01 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AB77A0DE1BEF0D64009C3817 /* PBXTargetDependency */,
+				AB4BE0DA1BEF58DA00032C01 /* PBXTargetDependency */,
 			);
 			name = NoiseMonitorClientTests;
 			productName = NoiseMonitorClientTests;
-			productReference = AB77A0D81BEF0D64009C3817 /* NoiseMonitorClientTests.xctest */;
+			productReference = AB4BE0D41BEF58DA00032C01 /* NoiseMonitorClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -209,7 +209,7 @@
 					AB222AE41BD5D5EE009E7D1C = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
-					AB77A0D71BEF0D64009C3817 = {
+					AB4BE0D31BEF58DA00032C01 = {
 						CreatedOnToolsVersion = 7.1;
 						TestTargetID = AB222AE41BD5D5EE009E7D1C;
 					};
@@ -229,7 +229,7 @@
 			projectRoot = "";
 			targets = (
 				AB222AE41BD5D5EE009E7D1C /* NoiseMonitorClient */,
-				AB77A0D71BEF0D64009C3817 /* NoiseMonitorClientTests */,
+				AB4BE0D31BEF58DA00032C01 /* NoiseMonitorClientTests */,
 			);
 		};
 /* End PBXProject section */
@@ -245,7 +245,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB77A0D61BEF0D64009C3817 /* Resources */ = {
+		AB4BE0D21BEF58DA00032C01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,21 +319,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB77A0D41BEF0D64009C3817 /* Sources */ = {
+		AB4BE0D01BEF58DA00032C01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB77A0DB1BEF0D64009C3817 /* NoiseMonitorClientTests.swift in Sources */,
+				AB4BE0D71BEF58DA00032C01 /* NoiseMonitorClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AB77A0DE1BEF0D64009C3817 /* PBXTargetDependency */ = {
+		AB4BE0DA1BEF58DA00032C01 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AB222AE41BD5D5EE009E7D1C /* NoiseMonitorClient */;
-			targetProxy = AB77A0DD1BEF0D64009C3817 /* PBXContainerItemProxy */;
+			targetProxy = AB4BE0D91BEF58DA00032C01 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -466,7 +466,7 @@
 			};
 			name = Release;
 		};
-		AB77A0E01BEF0D64009C3817 /* Debug */ = {
+		AB4BE0DC1BEF58DA00032C01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -479,7 +479,7 @@
 			};
 			name = Debug;
 		};
-		AB77A0E11BEF0D64009C3817 /* Release */ = {
+		AB4BE0DD1BEF58DA00032C01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -513,11 +513,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AB77A0DF1BEF0D64009C3817 /* Build configuration list for PBXNativeTarget "NoiseMonitorClientTests" */ = {
+		AB4BE0DB1BEF58DA00032C01 /* Build configuration list for PBXNativeTarget "NoiseMonitorClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AB77A0E01BEF0D64009C3817 /* Debug */,
-				AB77A0E11BEF0D64009C3817 /* Release */,
+				AB4BE0DC1BEF58DA00032C01 /* Debug */,
+				AB4BE0DD1BEF58DA00032C01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

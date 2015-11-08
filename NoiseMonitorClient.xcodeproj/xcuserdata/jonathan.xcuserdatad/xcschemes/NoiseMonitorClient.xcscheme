@@ -33,7 +33,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AB77A0D71BEF0D64009C3817"
+               BlueprintIdentifier = "AB4BE0D31BEF58DA00032C01"
                BuildableName = "NoiseMonitorClientTests.xctest"
                BlueprintName = "NoiseMonitorClientTests"
                ReferencedContainer = "container:NoiseMonitorClient.xcodeproj">

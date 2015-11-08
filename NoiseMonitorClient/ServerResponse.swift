@@ -38,16 +38,20 @@ struct ServerResponse {
     }
     
     init(fromJSONData jsonData: NSData) {
-        json = JSON(data: jsonData)
-        type = ResponseType(rawValue:json["type"].stringValue)
+        let json = JSON(data: jsonData)
+        type = ResponseType(rawValue:json["type"].stringValue) ?? ResponseType.Error
         value = []
         for subJSON in json["value"].arrayValue {
             value.append(subJSON.string)
         }
         rows = []
         for subJSON in json["rows"].arrayValue {
-            row = DataRow(subJSON as NSData)
+            do {
+            let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(timestamp: "NO TIMESTAMP", data: "NO DATA")
             rows.append(row)
+            } catch {
+                print("Failed while trying to get data rows out of JSON")
+            }
         }
     }
 }
@@ -57,13 +61,18 @@ struct DataRow {
     var timestamp: String
     var data: String
     
+    init(timestamp: String, data: String) {
+        self.timestamp = timestamp
+        self.data = data
+    }
+    
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
         timestamp = d["timestamp"] as? String ?? "NO TIMESTAMP"
         data = d["data"] as? String ?? "NO ROW DATA"
     }
     
     init(fromJSONData jsonData: NSData) {
-        json = JSON(data: jsonData)
+        let json = JSON(data: jsonData)
         timestamp = json["timestamp"].stringValue
         data = json["data"].stringValue
     }

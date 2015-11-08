@@ -22,6 +22,8 @@ class NoiseMonitorClientTests: XCTestCase {
         super.tearDown()
     }
     
+    
+    // MARK: JSON tests
     func testCreateGenericJson() {
         var json: JSON =  ["name": "Jack", "age": 25, "list": ["a", "b", "c", ["what": "this"]]]
         assert(json["name"].stringValue == "Jack")
@@ -34,7 +36,7 @@ class NoiseMonitorClientTests: XCTestCase {
     }
     
     func testCreateGenericServerResponseJson() -> JSON {
-        let json: JSON =  ["type": "Error", "value": ["value one", "value two"], "rows": [["timestamp": "TIMESTAMP", "data": "ROW DATA"]]]
+        let json: JSON =  ["type": "Error", "value": ["value one", "value two"], "rows": [["timestamp": "TIMESTAMP", "data": "ROW DATA"]], "response": "test_response"]
         return json
     }
     
@@ -58,10 +60,14 @@ class NoiseMonitorClientTests: XCTestCase {
         for row in serverResponse.rows {
             print("timestamp = \(row!.timestamp), data = \(row!.data)")
         }
-        
-        
-
-        
+    
+    }
+    
+    // MARK: CoAP Tests
+    
+    func testCreateObservePacket() {
+        let testObservePacket = Utilities.createObservePacket(sensor: ["1"])
+        print(testObservePacket)
     }
     
     

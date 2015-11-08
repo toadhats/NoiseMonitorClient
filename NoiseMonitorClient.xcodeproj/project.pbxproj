@@ -19,6 +19,7 @@
 		ABA92DB01BEF5A8300EC0C22 /* SCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DAC1BEF5A8300EC0C22 /* SCClient.swift */; };
 		ABA92DB11BEF5A8300EC0C22 /* SCMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DAD1BEF5A8300EC0C22 /* SCMessage.swift */; };
 		ABA92DB21BEF5A8300EC0C22 /* SCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DAE1BEF5A8300EC0C22 /* SCServer.swift */; };
+		ABA92DB41BEF86F700EC0C22 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DB31BEF86F700EC0C22 /* Utilities.swift */; };
 		ABE05BC71BEA5FE400F071D4 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */; };
 		EEE63F28DA821F2E1852579F /* Pods_NoiseMonitorClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		ABA92DAC1BEF5A8300EC0C22 /* SCClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCClient.swift; sourceTree = "<group>"; };
 		ABA92DAD1BEF5A8300EC0C22 /* SCMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCMessage.swift; sourceTree = "<group>"; };
 		ABA92DAE1BEF5A8300EC0C22 /* SCServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCServer.swift; sourceTree = "<group>"; };
+		ABA92DB31BEF86F700EC0C22 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoiseMonitorClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -117,6 +119,7 @@
 				AB222AF61BD5D5EE009E7D1C /* Info.plist */,
 				ABA92DA91BEF5A8300EC0C22 /* SwiftCoAP_Library */,
 				AB270B721BEC839D00FA403E /* ServerResponse.swift */,
+				ABA92DB31BEF86F700EC0C22 /* Utilities.swift */,
 			);
 			path = NoiseMonitorClient;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				AB270B731BEC839D00FA403E /* ServerResponse.swift in Sources */,
 				ABA92DAF1BEF5A8300EC0C22 /* GCDAsyncUdpSocket.m in Sources */,
 				AB222AEB1BD5D5EE009E7D1C /* LiveViewController.swift in Sources */,
+				ABA92DB41BEF86F700EC0C22 /* Utilities.swift in Sources */,
 				ABE05BC71BEA5FE400F071D4 /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

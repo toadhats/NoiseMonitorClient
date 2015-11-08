@@ -42,7 +42,8 @@ class LiveViewController: UIViewController, SCClientDelegate {
         let hostPort = defaults.integerForKey("serverPort") ?? 5683
         
         print("Trying to send an observe request")
-        let m = SCMessage(code: SCCodeValue(classValue: 0, detailValue: 01)!, type: .Confirmable, payload: "test".dataUsingEncoding(NSUTF8StringEncoding))
+        let observeRequestPayload = Utilities.createObservePacket(sensor: ["1"])
+        let m = SCMessage(code: SCCodeValue(classValue: 0, detailValue: 01)!, type: .Confirmable, payload: observeRequestPayload)
         let zeroByte: [UInt8] = [0x0] // this shouldn't be necessary but nothing else worked
         m.addOption(SCOption.Observe.rawValue, data: NSData(bytes: (zeroByte), length: 1)) // Adding the observe option (value of 0) -- This stopped working for some reason. Swift update? I just want to send a value of zero...
         client?.sendCoAPMessage(m, hostName: hostName, port: UInt16(hostPort))

@@ -33,8 +33,10 @@ struct ServerResponse {
         type = ResponseType(rawValue: (d["type"] as! String)) ?? ResponseType.Error
         value = d["value"] as? [String?] ?? ["Error: Could not parse value in NSDictionary"]
         if let rowData = d["rows"] {
-        rows = dataRowArray(rowData) as [DataRow?] // I think the DataRow init will protect us from this case being totally nil??
-        } else {rows = []}
+            rows = dataRowArray(rowData) as [DataRow?] // I think the DataRow init will protect us from this case being totally nil??
+        } else {
+            rows = []
+        }
     }
     
     init(fromJSONData jsonData: NSData) {
@@ -47,8 +49,8 @@ struct ServerResponse {
         rows = []
         for subJSON in json["rows"].arrayValue {
             do {
-            let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(timestamp: "NO TIMESTAMP", data: "NO DATA")
-            rows.append(row)
+                let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(sensor: "NO SENSOR", timestamp: "NO TIMESTAMP", data: "NO DATA")
+                rows.append(row)
             } catch {
                 print("Failed while trying to get data rows out of JSON")
             }
@@ -58,21 +60,25 @@ struct ServerResponse {
 
 
 struct DataRow {
+    var sensor: String
     var timestamp: String
     var data: String
     
-    init(timestamp: String, data: String) {
+    init(sensor: String, timestamp: String, data: String) {
+        self.sensor = sensor
         self.timestamp = timestamp
         self.data = data
     }
     
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
+        sensor = d["sensor"] as? String ?? "NO SENSOR"
         timestamp = d["timestamp"] as? String ?? "NO TIMESTAMP"
         data = d["data"] as? String ?? "NO ROW DATA"
     }
     
     init(fromJSONData jsonData: NSData) {
         let json = JSON(data: jsonData)
+        sensor = json["sensor"].stringValue
         timestamp = json["timestamp"].stringValue
         data = json["data"].stringValue
     }
@@ -90,11 +96,11 @@ func dataRowArray(rowArrayObject: AnyObject?) -> [DataRow?] {
     var rows: [DataRow?] = []
     if let rowArray: [Dictionary<String,AnyObject>] = rowArrayObject as? NSArray as? [Dictionary<String,AnyObject>] {
         for row in rowArray {
-           let dataRow = DataRow(fromDictionary: row)
+            let dataRow = DataRow(fromDictionary: row)
             rows.append(dataRow)
         }
     }
- return rows
+    return rows
 }
 
 /**
@@ -117,3 +123,5 @@ func dictFromJSON(payload json: NSData) -> Dictionary<String,AnyObject?> {
         return Dictionary<String,AnyObject>() // Empty dict seems better than just crashing? As long as we print an error message
     }
 }
+
+

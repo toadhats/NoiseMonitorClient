@@ -17,6 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // MARK: Settings stuff
+        self.registerDefaultsFromSettingsBundle() // Custom function that attempts to make settings/defaults work transparently. Alternative requires hardcoding the default settings in two seperate places (HELL NO)
+        
         return true
     }
     
@@ -67,6 +71,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     enum SwiftCoAPInitError: ErrorType {
         case CouldNotInitialise
+    }
+    
+    // Based on a non-compiling example given in a stackexchange answer (http://stackoverflow.com/a/27949098/3959735) – it was broken and requires a bizarre cast? Still not sure its even working but it looks ok on the debugger?
+    func registerDefaultsFromSettingsBundle(){
+        
+        print(NSUserDefaults.standardUserDefaults().dictionaryRepresentation())
+        let defs: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        defs.synchronize()
+        
+        var settingsBundle: NSString = NSBundle.mainBundle().pathForResource("Settings", ofType: "bundle")!
+        if(settingsBundle.containsString("")){
+            NSLog("Could not find Settings.bundle");
+            return;
+        }
+        var settings: NSDictionary = NSDictionary(contentsOfFile: settingsBundle.stringByAppendingPathComponent("Root.plist"))!
+        var preferences: NSArray = settings.objectForKey("PreferenceSpecifiers") as! NSArray
+        var defaultsToRegister: NSMutableDictionary = NSMutableDictionary(capacity: preferences.count)
+        
+        for prefSpecification in preferences {
+            if (prefSpecification.objectForKey("Key") != nil) {
+                let key: NSString = prefSpecification.objectForKey("Key")! as! NSString
+                if !key.containsString("") {
+                    let currentObject: AnyObject? = defs.objectForKey(key as String)
+                    if currentObject == nil {
+                        // not readable: set value from Settings.bundle
+                        let objectToSet: AnyObject? = prefSpecification.objectForKey("DefaultValue")
+                        defaultsToRegister.setObject(objectToSet!, forKey: key)
+                        NSLog("Setting object \(objectToSet) for key \(key)")
+                    }else{
+                        //already readable: don't touch
+                        NSLog("Key \(key) is readable (value: \(currentObject)), nothing written to defaults.");
+                    }
+                }
+            }
+        }
+        defs.registerDefaults(defaultsToRegister as [NSObject:AnyObject] as! [String: AnyObject] )
+        defs.synchronize()
+        print(NSUserDefaults.standardUserDefaults().dictionaryRepresentation())
     }
     
     

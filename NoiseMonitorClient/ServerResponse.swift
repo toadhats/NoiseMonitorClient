@@ -85,6 +85,7 @@ struct DataRow {
     
 }
 
+
 /**
  Takes the data that will be found in ServerResponse.rows and turns it into a [DataRow]
  

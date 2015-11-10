@@ -20,6 +20,7 @@
 		ABA92DB11BEF5A8300EC0C22 /* SCMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DAD1BEF5A8300EC0C22 /* SCMessage.swift */; };
 		ABA92DB21BEF5A8300EC0C22 /* SCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DAE1BEF5A8300EC0C22 /* SCServer.swift */; };
 		ABA92DB41BEF86F700EC0C22 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA92DB31BEF86F700EC0C22 /* Utilities.swift */; };
+		ABA92DB61BF0491000EC0C22 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ABA92DB51BF0491000EC0C22 /* Settings.bundle */; };
 		ABE05BC71BEA5FE400F071D4 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */; };
 		EEE63F28DA821F2E1852579F /* Pods_NoiseMonitorClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */; };
 /* End PBXBuildFile section */
@@ -55,6 +56,7 @@
 		ABA92DAD1BEF5A8300EC0C22 /* SCMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCMessage.swift; sourceTree = "<group>"; };
 		ABA92DAE1BEF5A8300EC0C22 /* SCServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCServer.swift; sourceTree = "<group>"; };
 		ABA92DB31BEF86F700EC0C22 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		ABA92DB51BF0491000EC0C22 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		ABE05BC61BEA5FE400F071D4 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		E483DC54EB1A0095A966EE7A /* Pods_NoiseMonitorClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NoiseMonitorClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -89,6 +91,7 @@
 		AB222ADC1BD5D5EE009E7D1C = {
 			isa = PBXGroup;
 			children = (
+				ABA92DB51BF0491000EC0C22 /* Settings.bundle */,
 				AB222AE71BD5D5EE009E7D1C /* NoiseMonitorClient */,
 				AB4BE0D51BEF58DA00032C01 /* NoiseMonitorClientTests */,
 				AB222AE61BD5D5EE009E7D1C /* Products */,
@@ -242,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABA92DB61BF0491000EC0C22 /* Settings.bundle in Resources */,
 				AB222AF51BD5D5EE009E7D1C /* LaunchScreen.storyboard in Resources */,
 				AB222AF21BD5D5EE009E7D1C /* Assets.xcassets in Resources */,
 				AB222AF01BD5D5EE009E7D1C /* Main.storyboard in Resources */,

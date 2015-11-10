@@ -20,6 +20,7 @@ class Utilities {
      */
     static func createObservePacket(sensor sensor: [String]) -> NSData {
         let json: JSON = ["request": "Observe", "sensors": "\(sensor)", "parameters": ""]
+        print(json) // DEbug
         return try! json.rawData()
     }
     

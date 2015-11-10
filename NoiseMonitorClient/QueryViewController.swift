@@ -7,17 +7,25 @@
 //
 
 import UIKit
+import Eureka
 
-class QueryViewController: UIViewController {
+class QueryViewController: UIViewController, SCClientDelegate {
+    
+    var client: SCClient? // Nil until we get a reference to it.
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewDidAppear(animated: Bool) {
+        // Take responsibility for incoming CoAP packets
+        client?.delegate = self
+    }
+    
+    // MARK: SCClientDelegate responsibilities
+    func swiftCoapClient(client: SCClient, didReceiveMessage message: SCMessage) {
+        print("ping")
     }
 
 

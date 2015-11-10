@@ -8,12 +8,16 @@
 
 import UIKit
 import Charts
+import SwiftyJSON
 
 class LiveViewController: UIViewController, SCClientDelegate {
     
     @IBOutlet weak var barChartView: BarChartView!
     var months: [String]! // testing delete
     var client: SCClient? // Nil until we get a reference to it.
+    
+    var dataPoints: [String] = [] // This is where we store the timestamps of individual updates. Each one makes a point on the graph
+    var dataValues: [Double] = [] // This is where we store the results we get. Not a fan of how these are decoupled tbh
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,23 +40,49 @@ class LiveViewController: UIViewController, SCClientDelegate {
      */
     override func viewDidAppear(animated: Bool) {
         
+        // Take responsibility for incoming CoAP packets
+        client?.delegate = self
+        
         // Get the server hostname etc from the UserDefaults
         let defaults = NSUserDefaults.standardUserDefaults()
-        let hostName = defaults.stringForKey("serverHostName") ?? "localhost"
-        let hostPort = defaults.integerForKey("serverPort") ?? 5683
         
-        print("Trying to send an observe request")
+        let hostName = defaults.stringForKey("SettingsServerHostname") ?? "dog.com"
+        NSLog("Got hostName from defaults: \(hostName)")
+        
+        let hostPort = Int(defaults.stringForKey("SettingsServerPort")!) ?? 420
+        NSLog("Got hostPort from defaults: \(hostPort)")
+        
+        
+        print("Trying to send an observe request to \(hostName):\(hostPort)")
         let observeRequestPayload = Utilities.createObservePacket(sensor: ["1"])
         let m = SCMessage(code: SCCodeValue(classValue: 0, detailValue: 01)!, type: .Confirmable, payload: observeRequestPayload)
         let zeroByte: [UInt8] = [0x0] // this shouldn't be necessary but nothing else worked
         m.addOption(SCOption.Observe.rawValue, data: NSData(bytes: (zeroByte), length: 1)) // Adding the observe option (value of 0) -- This stopped working for some reason. Swift update? I just want to send a value of zero...
+        let uriString = "5".dataUsingEncoding(NSUTF8StringEncoding) // specifying the path
+        m.addOption(SCOption.UriPath.rawValue, data: uriString!) // adding the path to the outgoing message
         client?.sendCoAPMessage(m, hostName: hostName, port: UInt16(hostPort))
         // Observe request sent, assuming we actually have a reference to the client
     }
     
     // MARK: SCClientDelegate responsibilities
     func swiftCoapClient(client: SCClient, didReceiveMessage message: SCMessage) {
-    
+        // Debug debug debug deubdbdubdbdubdu
+        print("Recieved a response:")
+        print("Host: \(message.hostName)    URI Path: \(message.completeUriPath())")
+        print("Message ID: \(message.messageId)     Port: \(message.port)")
+        print("Response code: \(message.code)")
+        print("Options: \(message.options)")
+        print("Payload: \(message.payloadRepresentationString())")
+        
+        
+        
+        if let payloadJSON = JSON(data: message.payload!) as JSON? { // What am i even doing
+            NSLog("Got JSON out of CoAP payload")
+            print(payloadJSON["e"][0]["sv"]) // DEBUG delete
+            // getValuesFromObserveJSON()
+        } else {
+            NSLog("Failed to get JSON out of CoAP payload")
+        }
     }
     
     // MARK: Chart
@@ -77,6 +107,13 @@ class LiveViewController: UIViewController, SCClientDelegate {
         
         let ll = ChartLimitLine(limit: 10.0, label: "Target") // How to create a "limit line"
         barChartView.rightAxis.addLimitLine(ll) // how to draw the limit line on the chart
+    }
+    
+    func getValuesFromObserveJSON(json: JSON) -> (timestamp: String, min: Double, max: Double, avg: Double) {
+        var updateTimestamp = "FAIL"
+        var updateAvg = 0.0
+        
+        
     }
     
     

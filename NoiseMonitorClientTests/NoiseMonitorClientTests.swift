@@ -63,12 +63,16 @@ class NoiseMonitorClientTests: XCTestCase {
     
     }
     
-    // MARK: CoAP Tests
+    // MARK: CoAP/Networking Tests
     
     func testCreateObservePacket() {
         let testObservePacket = Utilities.createObservePacket(sensor: ["1"])
         print(testObservePacket)
     }
+    
+
+    
+    
     
     
     

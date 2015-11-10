@@ -25,17 +25,17 @@ enum ResponseType: String{
 struct ServerResponse {
     var type: ResponseType
     var value: [String?] // I'd like to have more confidence about types but that might not be practical
-    var rows: [DataRow?]
+    var results: [DataRow?]
     
     // This doesn't work and i have no idea why
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
         // Provide default values to prevent tears. If we ever see these something broke.
         type = ResponseType(rawValue: (d["type"] as! String)) ?? ResponseType.Error
         value = d["value"] as? [String?] ?? ["Error: Could not parse value in NSDictionary"]
-        if let rowData = d["rows"] {
-            rows = dataRowArray(rowData) as [DataRow?] // I think the DataRow init will protect us from this case being totally nil??
+        if let rowData = d["results"] {
+            results = dataRowArray(rowData) as [DataRow?] // I think the DataRow init will protect us from this case being totally nil??
         } else {
-            rows = []
+            results = []
         }
     }
     
@@ -46,13 +46,13 @@ struct ServerResponse {
         for subJSON in json["value"].arrayValue {
             value.append(subJSON.string)
         }
-        rows = []
-        for subJSON in json["rows"].arrayValue {
+        results = []
+        for subJSON in json["results"].arrayValue {
             do {
-                let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(sensor: "NO SENSOR", timestamp: "NO TIMESTAMP", data: "NO DATA")
-                rows.append(row)
+                let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(sensor: "JSON INIT FAILED", timeStart: "JSON INIT FAILED", timeEnd: "JSON INIT FAILED", dataMin: -99.0, dataMax: -99.0, dataAvg: -99.0)
+                results.append(row)
             } catch {
-                print("Failed while trying to get data rows out of JSON")
+                print("Init failed while trying to get data rows out of JSON")
             }
         }
     }
@@ -61,26 +61,58 @@ struct ServerResponse {
 
 struct DataRow {
     var sensor: String
-    var timestamp: String
-    var data: String
+    var timeStart: String
+    var timeEnd: String
+    var min: Double
+    var max: Double
+    var avg: Double
     
-    init(sensor: String, timestamp: String, data: String) {
+    init(sensor: String, timeStart: String, timeEnd: String, dataMin: Double, dataMax: Double, dataAvg: Double) {
         self.sensor = sensor
-        self.timestamp = timestamp
-        self.data = data
+        self.timeStart = timeStart
+        self.timeEnd = timeEnd
+        self.min = dataMin
+        self.max = dataMax
+        self.avg = dataAvg
     }
     
+    /**
+     Initialises a DataRow from a Swift dictionary.
+     
+     I can turn the date strings into swift date objects using the following:
+     let timeStartDate = NSDate.date(fromString: timeStart, format: DateFormat.Custom("yyyy/M/d HH:MM.SS"))
+
+     
+     - parameter d: a dictionary with elements corresponding to DataRow properties
+     
+     - returns: a DataRow
+     */
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
         sensor = d["sensor"] as? String ?? "NO SENSOR"
-        timestamp = d["timestamp"] as? String ?? "NO TIMESTAMP"
-        data = d["data"] as? String ?? "NO ROW DATA"
+        timeStart = d["timeStart"] as? String ?? "NO START TIME"
+        timeEnd = d["timeEnd"] as? String ?? "NO END TIME"
+        min = d["min"] as? Double ?? -1.0
+        max = d["max"] as? Double ?? -1.0
+        avg = d["avg"] as? Double ?? -1.0
     }
     
+    /**
+     Initialises a DataRow from raw NSData (Assuming that raw data happens to be UTF-8 formatted JSON). 
+     Note that it takes the data straight from the payload, NOT an already deserialised JSON object
+     
+     - parameter jsonData: an NSData object from a CoAP payload, ideally containing UTF-8 formatted JSON
+     
+     - returns: a DataRow object ready for handling
+     */
     init(fromJSONData jsonData: NSData) {
         let json = JSON(data: jsonData)
         sensor = json["sensor"].stringValue
-        timestamp = json["timestamp"].stringValue
-        data = json["data"].stringValue
+        timeStart = json["timeStart"].stringValue
+        timeEnd = json["timeEnd"].stringValue
+        min = json["min"].doubleValue
+        max = json["max"].doubleValue
+        avg = json["avg"].doubleValue
+        
     }
     
 }

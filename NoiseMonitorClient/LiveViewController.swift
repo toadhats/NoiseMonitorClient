@@ -12,10 +12,16 @@ import SwiftyJSON
 
 class LiveViewController: UIViewController, SCClientDelegate {
     
+    // MARK: Outlets
+    
+    @IBOutlet weak var decibelLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
     var months: [String]! // testing delete
     var client: SCClient? // Nil until we get a reference to it.
     
+    var dataRows: [[DataRow]] = [[]] // An array of arrays of DataRows. Each sensor gets its own array, allocated on arrival via the sensor ID property in the datarow
+    
+    // Grapher stuff
     var dataPoints: [String] = [] // This is where we store the timestamps of individual updates. Each one makes a point on the graph
     var dataValues: [Double] = [] // This is where we store the results we get. Not a fan of how these are decoupled tbh
     
@@ -25,10 +31,10 @@ class LiveViewController: UIViewController, SCClientDelegate {
         let appDelegate = UIApplication.sharedApplication().delegate! as! AppDelegate // I feel like this is safe to force cast
         client = appDelegate.coapClient
         // Now we have a reference to the coap client we can use to send requests
-
+        
         // ***testing delete***
-        months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 4.0, 18.0, 2.0, 4.0, 5.0, 4.0]
+        months =        ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"]
+        let unitsSold = [70.0, 68.5, 69.2, 63.4, 62.2, 61.8, 64.6, 68.9, 62.0, 64.7, 65.0, 64.0, 66.6, 67.5, 66.7, 65.3, 66.4, 55.9, 65.5, 64.1]
         setChart(months, values: unitsSold)
         // ***end testing***
     }
@@ -54,11 +60,11 @@ class LiveViewController: UIViewController, SCClientDelegate {
         
         
         print("Trying to send an observe request to \(hostName):\(hostPort)")
-        let observeRequestPayload = Utilities.createObservePacket(sensor: ["1"])
+        let observeRequestPayload = Utilities.createObservePacket(sensor: [1])
         let m = SCMessage(code: SCCodeValue(classValue: 0, detailValue: 01)!, type: .Confirmable, payload: observeRequestPayload)
         let zeroByte: [UInt8] = [0x0] // this shouldn't be necessary but nothing else worked
         m.addOption(SCOption.Observe.rawValue, data: NSData(bytes: (zeroByte), length: 1)) // Adding the observe option (value of 0) -- This stopped working for some reason. Swift update? I just want to send a value of zero...
-        let uriString = "5".dataUsingEncoding(NSUTF8StringEncoding) // specifying the path
+        let uriString = "sensorData".dataUsingEncoding(NSUTF8StringEncoding) // specifying the path
         m.addOption(SCOption.UriPath.rawValue, data: uriString!) // adding the path to the outgoing message
         client?.sendCoAPMessage(m, hostName: hostName, port: UInt16(hostPort))
         // Observe request sent, assuming we actually have a reference to the client
@@ -74,15 +80,32 @@ class LiveViewController: UIViewController, SCClientDelegate {
         print("Options: \(message.options)")
         print("Payload: \(message.payloadRepresentationString())")
         
-        
-        
-        if let payloadJSON = JSON(data: message.payload!) as JSON? { // What am i even doing
-            NSLog("Got JSON out of CoAP payload")
-            print(payloadJSON["e"][0]["sv"]) // DEBUG delete
-            // getValuesFromObserveJSON()
-        } else {
-            NSLog("Failed to get JSON out of CoAP payload")
+        guard let unwrappedPayload = message.payload else {
+            // If we don't have a payload lets quit before we hurt ourselves
+            NSLog("No payload found.")
+            return
         }
+        let response = ServerResponse(fromJSONData: unwrappedPayload)
+        NSLog("Got JSON out of CoAP payload")
+        // Paranoid checking mode because everything breaks ranodmly all the time
+        
+        if let data = response.results[0] {
+            NSLog("Got a DataRow out of the JSON")
+            if let sensorID = Int(data.sensor) {
+                
+                dataRows[sensorID].append(data)
+                NSLog("Put the DataRow into the array for sensor \(sensorID)")
+                // Append a datapoint (timestamp) and datavalue (reading) to the two arrays that feed the chart
+                
+                // Update the big label
+                let labelText = "\(data.avg)dB"
+                decibelLabel.text = labelText
+            }
+            
+        }
+        
+        
+        
     }
     
     // MARK: Chart
@@ -105,16 +128,20 @@ class LiveViewController: UIViewController, SCClientDelegate {
         chartDataSet.colors = ChartColorTemplates.vordiplom() // [UIColor(red: 230/255, green: 126/255, blue: 34/255, alpha: 1)] // how to customise colours
         barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0) // How to animate a chart
         
-        let ll = ChartLimitLine(limit: 10.0, label: "Target") // How to create a "limit line"
+        let ll = ChartLimitLine(limit: 85.0, label: "Target") // How to create a "limit line"
         barChartView.rightAxis.addLimitLine(ll) // how to draw the limit line on the chart
     }
     
+    /*
     func getValuesFromObserveJSON(json: JSON) -> (timestamp: String, min: Double, max: Double, avg: Double) {
-        var updateTimestamp = "FAIL"
-        var updateAvg = 0.0
-        
-        
+    
+    
+    var updateTimestamp = json["results"] ?? "FAIL"
+    var updateAvg = 0.0
+    
+    
     }
+    */
     
     
 }

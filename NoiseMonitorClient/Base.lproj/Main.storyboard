@@ -17,34 +17,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Live View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="224" y="5" width="153.5" height="41.5"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kSr-Gm-cZI" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="20" y="122" width="560" height="429"/>
+                                <rect key="frame" x="20" y="134.5" width="560" height="416.5"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" text="0dB" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
+                                <rect key="frame" x="252" y="-7.5" width="98" height="66.5"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="56"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
                             <constraint firstItem="kSr-Gm-cZI" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="bXU-aN-IPa"/>
-                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" constant="274.25" id="exm-UA-ej4"/>
+                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" constant="274.25" id="exm-UA-ej4">
+                                <variation key="widthClass=regular" constant="240.5"/>
+                            </constraint>
                             <constraint firstAttribute="trailingMargin" secondItem="kSr-Gm-cZI" secondAttribute="trailing" id="fxb-Z2-5vO"/>
-                            <constraint firstItem="kSr-Gm-cZI" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="75.5" id="tZw-tc-kX9"/>
+                            <constraint firstItem="kSr-Gm-cZI" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="75.5" id="tZw-tc-kX9">
+                                <variation key="widthClass=regular" constant="8"/>
+                            </constraint>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="kSr-Gm-cZI" secondAttribute="bottom" id="zCA-eB-Z6n"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Live" image="first" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="barChartView" destination="kSr-Gm-cZI" id="StD-BS-EvI"/>
+                        <outlet property="decibelLabel" destination="KQZ-1w-vlD" id="ege-5U-Gwe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -79,7 +84,7 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Query" image="second" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>

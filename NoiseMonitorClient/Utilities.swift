@@ -18,9 +18,15 @@ class Utilities {
      
      - parameter sensor: sensor ID number
      */
-    static func createObservePacket(sensor sensor: [Int]) -> NSData {
-        let json: JSON = ["request": "Observe", "sensors": "\(sensor)", "parameters": ""]
+    static func createObservePayload(sensor sensor: [Int]) -> NSData {
+        let json: JSON = ["request": "observe", "sensors": sensor, "parameters": [String: String]() ] // Empty dict just in case?
         print(json) // DEbug
+        return try! json.rawData()
+    }
+    
+    static func createObservePayload(sensor sensor: [Int], parameters: [String: String]) -> NSData {
+        let json: JSON = ["request": "observe", "sensors": sensor, "parameters": parameters]
+        print(json) //Debug
         return try! json.rawData()
     }
     

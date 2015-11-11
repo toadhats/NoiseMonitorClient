@@ -36,7 +36,13 @@ class NoiseMonitorClientTests: XCTestCase {
     }
     
     func testCreateGenericServerResponseJson() -> JSON {
-        let json: JSON =  ["type": "Error", "value": ["value one", "value two"], "rows": [["timestamp": "TIMESTAMP", "data": "ROW DATA"]], "response": "test_response"]
+        let json: JSON =  ["response": "observe", "value": ["value one", "value two"], "results": [["sensors": 1, "time": "TIME STAMP", "min": 1.1, "max": 3.3, "avg": 2.2]]]
+        return json
+    }
+    
+    func testCreateSampleObserveResponseJson() -> JSON {
+        // let json: JSON =  ["response": "observe", "results": [["sensors": 1, "time": "2015-11-11 16:26:31", "avg":118.235294117647,"max":321.0,"min":1.0]]]
+        let json: JSON = ["response":"observe","results":[["sensors":1,"time":"2015-11-11 17:22:11","avg":118.235294117647,"max":321.0,"min":1.0]]]
         return json
     }
     
@@ -46,28 +52,28 @@ class NoiseMonitorClientTests: XCTestCase {
     }
     
     func testInitialiseServerResponseFromData(){
-        let json = testCreateGenericServerResponseJson()
+        let json = testCreateSampleObserveResponseJson()
         let data = testCreateGenericServerResponseNSData(json)
-        let serverResponse = ServerResponse(fromJSONData: data)
-        assert(serverResponse.type == .Error)
+        let serverResponse = ServerResponse(failableFromJSONData: data)!
+        assert(serverResponse.type == .Observe)
         for val in serverResponse.value {
             print(val)
         }
-        assert(serverResponse.value[0] == "value one")
-        print(serverResponse.rows.count)
-        assert(serverResponse.rows[0]!.timestamp == "TIMESTAMP")
-        assert(serverResponse.rows[0]!.data == "ROW DATA")
-        for row in serverResponse.rows {
-            print("timestamp = \(row!.timestamp), data = \(row!.data)")
+        //assert(serverResponse.value[0] == "value one")
+        print(serverResponse.results.count)
+        assert(serverResponse.results[0]!.time == "2015-11-11 17:22:11")
+        assert(serverResponse.results[0]!.avg == 118.235294117647)
+        for row in serverResponse.results {
+            print("timestamp = \(row!.time), avg = \(row!.avg)")
         }
     
     }
     
     // MARK: CoAP/Networking Tests
     
-    func testCreateObservePacket() {
-        let testObservePacket = Utilities.createObservePacket(sensor: ["1"])
-        print(testObservePacket)
+    func testCreateObservePayload() {
+        let testObservePayload = Utilities.createObservePayload(sensor: [1])
+        print(testObservePayload)
     }
     
 

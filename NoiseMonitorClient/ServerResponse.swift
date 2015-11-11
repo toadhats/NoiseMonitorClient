@@ -13,14 +13,14 @@ import SwiftyJSON
  *  Response types: Observe , Result, Error. We use this info to decide what to do with a packet, e.g to help in a situation where we get an observe update while waiting for a seperate query reponse. Error allows us to determine whether a query failed and respond accordingly, else process the response as valid.
  */
 enum ResponseType: String{
-    case Observe = "Observe"        /// A single row object
-    case RowResponse = "RowResponse"   /// An array of one or more row objects
-    case AggResponse = "AggResponse"    /// A single value (like a max or an average)
-    case Error = "Error"          /// A single value (An error message string)
+    case Observe = "observe"        /// A single row object
+    case RowResponse = "rowResponse"   /// An array of one or more row objects
+    case AggResponse = "aggResponse"    /// A single value (like a max or an average)
+    case Error = "error"          /// A single value (An error message string)
 }
 
 /**
- *  Pretty simple. I don't know what else we'd want to keep in here but hopefully we can discuss it on saturday??
+ *  A struct representing what is sent by the server in the payload field of each CoAP response
  */
 struct ServerResponse {
     var type: ResponseType
@@ -39,9 +39,16 @@ struct ServerResponse {
         }
     }
     
+    /**
+     Initialise from an NSData object, e.g. what we get out of the payload of a CoAP packet. The failable version is probably safer in most cases.
+     
+     - parameter jsonData: NSData containing JSON definitely containing a comprehensible packet from the server or else we crash, again
+     
+     - returns: a ServerResponse struct
+     */
     init(fromJSONData jsonData: NSData) {
         let json = JSON(data: jsonData)
-        type = ResponseType(rawValue:json["type"].stringValue) ?? ResponseType.Error
+        type = ResponseType(rawValue:json["response"].stringValue) ?? ResponseType.Error
         value = []
         for subJSON in json["value"].arrayValue {
             value.append(subJSON.string)
@@ -49,28 +56,63 @@ struct ServerResponse {
         results = []
         for subJSON in json["results"].arrayValue {
             do {
-                let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(sensor: "JSON INIT FAILED", timeStart: "JSON INIT FAILED", timeEnd: "JSON INIT FAILED", dataMin: -99.0, dataMax: -99.0, dataAvg: -99.0)
+                let row = try DataRow(fromJSONData: subJSON.rawData() as NSData) ?? DataRow(sensor: "JSON INIT FAILED", time: "JSON INIT FAILED",  dataMin: -99.0, dataMax: -99.0, dataAvg: -99.0)
                 results.append(row)
             } catch {
                 print("Init failed while trying to get data rows out of JSON")
             }
         }
     }
+    
+    /**
+     Failable version for when we don't trust our input, which is always
+     
+     - parameter jsonData: NSData that may or may not be parseable as a ServerResponse struct
+     
+     - returns: A ServerResponse, maybe.
+     */
+    init?(failableFromJSONData jsonData: NSData) {
+        guard let json = JSON(data: jsonData) as JSON? else {return nil}
+        print("Init got JSON: \(json.debugDescription)")
+        NSLog("ServerResponse init deserialised JSON ok")
+        NSLog("Json contains response string \(json["response"])")
+        guard let optType = ResponseType(rawValue:json["response"].stringValue) else {
+            type = .Error
+            NSLog("ServerResponse init couldn't parse response type field")
+            return nil
+        }
+        type = optType // For some reason the guard wasn't working with the actual instance variable?
+        value = []
+        for subJSON in json["value"].arrayValue {
+            value.append(subJSON.string)
+        }
+        results = []
+        for subJSON: JSON in json["results"].arrayValue {
+            do {
+                guard let row = try DataRow(failableFromJSONData: subJSON.rawData()) else {
+                    NSLog("Failed to init a data row")
+                    return nil}
+                results.append(row)
+            } catch {
+                print("Init failed while trying to get data rows out of JSON")
+                return nil
+            }
+        }
+    }
+
 }
 
 
 struct DataRow {
     var sensor: String
-    var timeStart: String
-    var timeEnd: String
+    var time: String
     var min: Double
     var max: Double
     var avg: Double
     
-    init(sensor: String, timeStart: String, timeEnd: String, dataMin: Double, dataMax: Double, dataAvg: Double) {
+    init(sensor: String, time: String, dataMin: Double, dataMax: Double, dataAvg: Double) {
         self.sensor = sensor
-        self.timeStart = timeStart
-        self.timeEnd = timeEnd
+        self.time = time
         self.min = dataMin
         self.max = dataMax
         self.avg = dataAvg
@@ -88,9 +130,8 @@ struct DataRow {
      - returns: a DataRow
      */
     init(fromDictionary d: Dictionary<String, AnyObject?>) {
-        sensor = d["sensor"] as? String ?? "NO SENSOR"
-        timeStart = d["timeStart"] as? String ?? "NO START TIME"
-        timeEnd = d["timeEnd"] as? String ?? "NO END TIME"
+        sensor = d["sensors"] as? String ?? "NO SENSOR"
+        time = d["timeStart"] as? String ?? "NO TIME"
         min = d["min"] as? Double ?? -1.0
         max = d["max"] as? Double ?? -1.0
         avg = d["avg"] as? Double ?? -1.0
@@ -106,12 +147,34 @@ struct DataRow {
      */
     init(fromJSONData jsonData: NSData) {
         let json = JSON(data: jsonData)
-        sensor = json["sensor"].stringValue
-        timeStart = json["timeStart"].stringValue
-        timeEnd = json["timeEnd"].stringValue
+        sensor = json["sensors"].stringValue
+        time = json["time"].stringValue
         min = json["min"].doubleValue
         max = json["max"].doubleValue
         avg = json["avg"].doubleValue
+        
+        
+    }
+    
+    /**
+     Failable version of NSData init, used when the NSData is suspect, e.g. always.
+     
+     - parameter jsonData: an NSData object that probably doesn't contain valid JSON data
+     
+     - returns: A questionable datarow
+     */
+    init?(failableFromJSONData jsonData: NSData) {
+        let json = JSON(data: jsonData)
+        guard let unwrappedSensor = json["sensors"].int else {print(1);return nil}
+        sensor = String(unwrappedSensor)
+        guard let unwrappedTime = json["time"].string else {print(2);return nil}
+        time = unwrappedTime
+        guard let unwrappedMin = json["min"].double else {print(3);return nil}
+        min = unwrappedMin
+        guard let unwrappedMax = json["max"].double else {print(4);return nil}
+        max = unwrappedMax
+        guard let unwrappedAvg = json["avg"].double else {print(5);return nil}
+        avg = unwrappedAvg
         
     }
     

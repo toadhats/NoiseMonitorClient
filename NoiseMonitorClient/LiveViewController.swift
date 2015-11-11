@@ -60,7 +60,7 @@ class LiveViewController: UIViewController, SCClientDelegate {
         
         
         print("Trying to send an observe request to \(hostName):\(hostPort)")
-        let observeRequestPayload = Utilities.createObservePacket(sensor: [1])
+        let observeRequestPayload = Utilities.createObservePayload(sensor: [1])
         let m = SCMessage(code: SCCodeValue(classValue: 0, detailValue: 01)!, type: .Confirmable, payload: observeRequestPayload)
         let zeroByte: [UInt8] = [0x0] // this shouldn't be necessary but nothing else worked
         m.addOption(SCOption.Observe.rawValue, data: NSData(bytes: (zeroByte), length: 1)) // Adding the observe option (value of 0) -- This stopped working for some reason. Swift update? I just want to send a value of zero...
@@ -85,25 +85,35 @@ class LiveViewController: UIViewController, SCClientDelegate {
             NSLog("No payload found.")
             return
         }
-        let response = ServerResponse(fromJSONData: unwrappedPayload)
+        guard let response = ServerResponse(failableFromJSONData: unwrappedPayload) else {
+            NSLog("Could not parse payload as ServerResponse object")
+            return
+        }
         NSLog("Got JSON out of CoAP payload")
-        // Paranoid checking mode because everything breaks ranodmly all the time
-        
-        if let data = response.results[0] {
-            NSLog("Got a DataRow out of the JSON")
-            if let sensorID = Int(data.sensor) {
-                
-                dataRows[sensorID].append(data)
-                NSLog("Put the DataRow into the array for sensor \(sensorID)")
-                // Append a datapoint (timestamp) and datavalue (reading) to the two arrays that feed the chart
-                
-                // Update the big label
-                let labelText = "\(data.avg)dB"
-                decibelLabel.text = labelText
-            }
-            
+        // Paranoid checking mode because everything breaks randomly all the time
+        guard response.results.count > 0 else {
+            NSLog("Nothing in the results array")
+            return
         }
         
+        for result in response.results {
+            NSLog("Got a DataRow out of the JSON")
+            if let data = result {
+                print(data)
+                
+                if let sensorID = Int(data.sensor) {
+                    
+                    dataRows[sensorID].append(data)
+                    NSLog("Put the DataRow into the array for sensor \(sensorID)")
+                    // Append a datapoint (timestamp) and datavalue (reading) to the two arrays that feed the chart
+                    
+                    // Update the big label
+                    let labelText = "\(data.avg)dB"
+                    decibelLabel.text = labelText
+                }
+                
+            }
+        }
         
         
     }
@@ -120,7 +130,7 @@ class LiveViewController: UIViewController, SCClientDelegate {
             dataEntries.append(dataEntry) // And insert it into the array
         }
         
-        let chartDataSet = BarChartDataSet(yVals: dataEntries, label: "Units Sold") // Pass all these entries into the chart, map to y axis, add axis label
+        let chartDataSet = BarChartDataSet(yVals: dataEntries, label: "Peak noise levels") // Pass all these entries into the chart, map to y axis, add axis label
         let chartData = BarChartData(xVals: months, dataSet: chartDataSet) // this is kinda weird, how the x and y axes aren't really connected? Have to be careful with this or it'll cause some aggravating bug no doubt.
         barChartView.data = chartData // We give the chart itself the data now
         
